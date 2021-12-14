@@ -1,0 +1,36 @@
+﻿body {
+    background: url(../img/login-bg/login-bg-2.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 799px) {
+    body {
+        background-image: url(../img/login-bg/login-bg-2.jpg);
+    }
+}
+
+.containerOwnApp {
+    box-shadow: 0 0 27px 0 rgba(84, 84, 84, 0.62);
+    padding-top: 15px;
+}
+
+.login-page {
+    padding: 18% 0 0;
+    margin: 0 auto 100px;
+    max-width: 360px;
+    position: relative;
+}
+
+.login-form {
+    box-shadow: 0 0 27px 0 rgba(84, 84, 84, 0.62);
+    background-color: white;
+}
+
+.login-from-row {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+

@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SistemaReservacionModelStoreContainer" CdmEntityContainer="SistemaReservacionEntities">
+    <EntitySetMapping Name="Bitacora">
+      <EntityTypeMapping TypeName="SistemaReservacionModel.Bitacora">
+        <MappingFragment StoreEntitySet="Bitacora">
+          <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="accionRealizada" ColumnName="accionRealizada" />
+          <ScalarProperty Name="fechaDeLaAccion" ColumnName="fechaDeLaAccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Habitacion">
+      <EntityTypeMapping TypeName="SistemaReservacionModel.Habitacion">
+        <MappingFragment StoreEntitySet="Habitacion">
+          <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+          <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hotel">
+      <EntityTypeMapping TypeName="SistemaReservacionModel.Hotel">
+        <MappingFragment StoreEntitySet="Hotel">
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+          <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Persona">
+      <EntityTypeMapping TypeName="SistemaReservacionModel.Persona">
+        <MappingFragment StoreEntitySet="Persona">
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="clave" ColumnName="clave" />
+          <ScalarProperty Name="esEmpleado" ColumnName="esEmpleado" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservacion">
+      <EntityTypeMapping TypeName="SistemaReservacionModel.Reservacion">
+        <MappingFragment StoreEntitySet="Reservacion">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+          <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+          <ScalarProperty Name="totalDiasReservacion" ColumnName="totalDiasReservacion" />
+          <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+          <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+          <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+          <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarCapacidad" FunctionName="SistemaReservacionModel.Store.ConsultarCapacidad" />
+    <FunctionImportMapping FunctionImportName="proc_AgregarUsuario" FunctionName="SistemaReservacionModel.Store.proc_AgregarUsuario" />
+    <FunctionImportMapping FunctionImportName="proc_CancelarBitacora" FunctionName="SistemaReservacionModel.Store.proc_CancelarBitacora" />
+    <FunctionImportMapping FunctionImportName="proc_CancelarReservacion" FunctionName="SistemaReservacionModel.Store.proc_CancelarReservacion" />
+    <FunctionImportMapping FunctionImportName="proc_ConseguirID" FunctionName="SistemaReservacionModel.Store.proc_ConseguirID" />
+    <FunctionImportMapping FunctionImportName="proc_ConsultarCliente" FunctionName="SistemaReservacionModel.Store.proc_ConsultarCliente">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarCliente_Result">
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarDetalleBitacora" FunctionName="SistemaReservacionModel.Store.proc_ConsultarDetalleBitacora">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarDetalleBitacora_Result">
+          <ScalarProperty Name="fechaDeLaAccion" ColumnName="fechaDeLaAccion" />
+          <ScalarProperty Name="accionRealizada" ColumnName="accionRealizada" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarDetalleReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarDetalleReservacion">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarDetalleReservacion_Result">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="totalDiasReservacion" ColumnName="totalDiasReservacion" />
+          <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+          <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+          <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarEstadoReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarEstadoReservacion" />
+    <FunctionImportMapping FunctionImportName="proc_ConsultarFecha" FunctionName="SistemaReservacionModel.Store.proc_ConsultarFecha">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarFecha_Result">
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarFechaReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarFechaReservacion">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarFechaReservacion_Result">
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarHabitaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHabitaciones">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHabitaciones_Result">
+          <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+          <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarHabitacionPorId" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHabitacionPorId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHabitacionPorId_Result">
+          <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+          <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarHotel" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHotel">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHotel_Result">
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarHotelPorId" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHotelPorId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHotelPorId_Result">
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+          <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarReservaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarReservaciones">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarReservaciones_Result">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarReservacionPorID" FunctionName="SistemaReservacionModel.Store.proc_ConsultarReservacionPorID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarReservacionPorID_Result">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+          <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_ConsultarUsuarioReservaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarUsuarioReservaciones">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarUsuarioReservaciones_Result">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_CorregirBitacora" FunctionName="SistemaReservacionModel.Store.proc_CorregirBitacora" />
+    <FunctionImportMapping FunctionImportName="proc_CrearBitacora" FunctionName="SistemaReservacionModel.Store.proc_CrearBitacora" />
+    <FunctionImportMapping FunctionImportName="proc_CrearHabitacion" FunctionName="SistemaReservacionModel.Store.proc_CrearHabitacion" />
+    <FunctionImportMapping FunctionImportName="proc_CrearReservacion" FunctionName="SistemaReservacionModel.Store.proc_CrearReservacion" />
+    <FunctionImportMapping FunctionImportName="proc_EditarHabitacion" FunctionName="SistemaReservacionModel.Store.proc_EditarHabitacion" />
+    <FunctionImportMapping FunctionImportName="proc_EditarReservacion" FunctionName="SistemaReservacionModel.Store.proc_EditarReservacion" />
+    <FunctionImportMapping FunctionImportName="proc_FiltroReservaciones" FunctionName="SistemaReservacionModel.Store.proc_FiltroReservaciones">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_FiltroReservaciones_Result">
+          <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+          <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+          <ScalarProperty Name="Column1" ColumnName="Column1" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_Inactivar" FunctionName="SistemaReservacionModel.Store.proc_Inactivar" />
+    <FunctionImportMapping FunctionImportName="proc_ValidarUsuario" FunctionName="SistemaReservacionModel.Store.proc_ValidarUsuario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ValidarUsuario_Result">
+          <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+          <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="clave" ColumnName="clave" />
+          <ScalarProperty Name="esEmpleado" ColumnName="esEmpleado" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

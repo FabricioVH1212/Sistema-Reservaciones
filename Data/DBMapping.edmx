@@ -1,0 +1,891 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SistemaReservacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="idBitacora" />
+          </Key>
+          <Property Name="idBitacora" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idReservacion" Type="int" Nullable="false" />
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="accionRealizada" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="fechaDeLaAccion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="idHabitacion" />
+          </Key>
+          <Property Name="idHabitacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idHotel" Type="int" Nullable="false" />
+          <Property Name="numeroHabitacion" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="capacidadMaxima" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="idHotel" />
+          </Key>
+          <Property Name="idHotel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="500" />
+          <Property Name="costoPorCadaAdulto" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoPorCadaNinho" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCompleto" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="esEmpleado" Type="bit" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reservacion">
+          <Key>
+            <PropertyRef Name="idReservacion" />
+          </Key>
+          <Property Name="idReservacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPersona" Type="int" Nullable="false" />
+          <Property Name="idHabitacion" Type="int" Nullable="false" />
+          <Property Name="fechaEntrada" Type="datetime" Nullable="false" />
+          <Property Name="fechaSalida" Type="datetime" Nullable="false" />
+          <Property Name="numeroAdultos" Type="int" Nullable="false" />
+          <Property Name="numeroNinhos" Type="int" Nullable="false" />
+          <Property Name="totalDiasReservacion" Type="int" Nullable="false" />
+          <Property Name="costoPorCadaAdulto" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoPorCadaNinho" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoTotal" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="fechaModificacion" Type="datetime" />
+          <Property Name="estado" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Bitacora_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bitacora_Reservacion">
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservacion">
+              <PropertyRef Name="idReservacion" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="idReservacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Habitacion_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="1" />
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="idHotel" />
+            </Principal>
+            <Dependent Role="Habitacion">
+              <PropertyRef Name="idHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservacion_Habitacion">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="idHabitacion" />
+            </Principal>
+            <Dependent Role="Reservacion">
+              <PropertyRef Name="idHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservacion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="Reservacion">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ConsultarCapacidad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_idHotel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_AgregarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_nombreCompleto" Type="varchar" Mode="In" />
+          <Parameter Name="P_email" Type="varchar" Mode="In" />
+          <Parameter Name="P_clave" Type="varchar" Mode="In" />
+          <Parameter Name="P_esEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="P_estado" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_CancelarBitacora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_idPersona" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_CancelarReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConseguirID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_ConsultarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_ConsultarDetalleBitacora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarDetalleReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarEstadoReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarFechaReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHabitacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarHabitaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_ConsultarHabitacionPorId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHabitacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarHotel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_ConsultarHotelPorId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHotel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarReservaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_ConsultarReservacionPorID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ConsultarUsuarioReservaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_CorregirBitacora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_idPersona" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_CrearBitacora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_idPersona" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_CrearHabitacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHotel" Type="int" Mode="In" />
+          <Parameter Name="P_numeroHabitacion" Type="varchar" Mode="In" />
+          <Parameter Name="P_capacidadMaxima" Type="int" Mode="In" />
+          <Parameter Name="P_descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_CrearReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idPersona" Type="int" Mode="In" />
+          <Parameter Name="P_idHabitacion" Type="int" Mode="In" />
+          <Parameter Name="P_fechaEntrada" Type="datetime" Mode="In" />
+          <Parameter Name="P_fechaSalida" Type="datetime" Mode="In" />
+          <Parameter Name="P_numeroAdultos" Type="int" Mode="In" />
+          <Parameter Name="P_numeroNinho" Type="int" Mode="In" />
+          <Parameter Name="P_totalDiasReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_costoPorCadaAdulto" Type="numeric" Mode="In" />
+          <Parameter Name="P_costoPorCadaNinho" Type="numeric" Mode="In" />
+          <Parameter Name="P_costoTotal" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="proc_EditarHabitacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHabitacion" Type="int" Mode="In" />
+          <Parameter Name="P_numeroHabitacion" Type="varchar" Mode="In" />
+          <Parameter Name="P_capacidadMaxima" Type="int" Mode="In" />
+          <Parameter Name="P_descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_EditarReservacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_fechaEntrada" Type="datetime" Mode="In" />
+          <Parameter Name="P_fechaSalida" Type="datetime" Mode="In" />
+          <Parameter Name="P_numeroAdultos" Type="int" Mode="In" />
+          <Parameter Name="P_numeroNinho" Type="int" Mode="In" />
+          <Parameter Name="P_totalDiasReservacion" Type="int" Mode="In" />
+          <Parameter Name="P_costoPorCadaAdulto" Type="numeric" Mode="In" />
+          <Parameter Name="P_costoPorCadaNinho" Type="numeric" Mode="In" />
+          <Parameter Name="P_costoTotal" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="proc_FiltroReservaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idPersona" Type="int" Mode="In" />
+          <Parameter Name="P_fechaEntrada" Type="datetime" Mode="In" />
+          <Parameter Name="P_fechaSalida" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="proc_Inactivar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="P_idHabitacion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_ValidarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SistemaReservacionModelStoreContainer">
+          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservacion" EntityType="Self.Reservacion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bitacora_Persona" Association="Self.FK_Bitacora_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Reservacion" Association="Self.FK_Bitacora_Reservacion">
+            <End Role="Reservacion" EntitySet="Reservacion" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Habitacion_Hotel" Association="Self.FK_Habitacion_Hotel">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Habitacion" EntitySet="Habitacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservacion_Habitacion" Association="Self.FK_Reservacion_Habitacion">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reservacion" EntitySet="Reservacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservacion_Persona" Association="Self.FK_Reservacion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Reservacion" EntitySet="Reservacion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SistemaReservacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="idBitacora" />
+          </Key>
+          <Property Name="idBitacora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idReservacion" Type="Int32" Nullable="false" />
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="accionRealizada" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaDeLaAccion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Bitacora_Persona" FromRole="Bitacora" ToRole="Persona" />
+          <NavigationProperty Name="Reservacion" Relationship="Self.FK_Bitacora_Reservacion" FromRole="Bitacora" ToRole="Reservacion" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="idHabitacion" />
+          </Key>
+          <Property Name="idHabitacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idHotel" Type="Int32" Nullable="false" />
+          <Property Name="numeroHabitacion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="capacidadMaxima" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK_Habitacion_Hotel" FromRole="Habitacion" ToRole="Hotel" />
+          <NavigationProperty Name="Reservacion" Relationship="Self.FK_Reservacion_Habitacion" FromRole="Habitacion" ToRole="Reservacion" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="idHotel" />
+          </Key>
+          <Property Name="idHotel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="costoPorCadaAdulto" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoPorCadaNinho" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK_Habitacion_Hotel" FromRole="Hotel" ToRole="Habitacion" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCompleto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="esEmpleado" Type="Boolean" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Persona" FromRole="Persona" ToRole="Bitacora" />
+          <NavigationProperty Name="Reservacion" Relationship="Self.FK_Reservacion_Persona" FromRole="Persona" ToRole="Reservacion" />
+        </EntityType>
+        <EntityType Name="Reservacion">
+          <Key>
+            <PropertyRef Name="idReservacion" />
+          </Key>
+          <Property Name="idReservacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPersona" Type="Int32" Nullable="false" />
+          <Property Name="idHabitacion" Type="Int32" Nullable="false" />
+          <Property Name="fechaEntrada" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaSalida" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="numeroAdultos" Type="Int32" Nullable="false" />
+          <Property Name="numeroNinhos" Type="Int32" Nullable="false" />
+          <Property Name="totalDiasReservacion" Type="Int32" Nullable="false" />
+          <Property Name="costoPorCadaAdulto" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoPorCadaNinho" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="costoTotal" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Reservacion" FromRole="Reservacion" ToRole="Bitacora" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK_Reservacion_Habitacion" FromRole="Reservacion" ToRole="Habitacion" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Reservacion_Persona" FromRole="Reservacion" ToRole="Persona" />
+        </EntityType>
+        <Association Name="FK_Bitacora_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bitacora_Reservacion">
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservacion">
+              <PropertyRef Name="idReservacion" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="idReservacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Habitacion_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="1" />
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="idHotel" />
+            </Principal>
+            <Dependent Role="Habitacion">
+              <PropertyRef Name="idHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservacion_Habitacion">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="idHabitacion" />
+            </Principal>
+            <Dependent Role="Reservacion">
+              <PropertyRef Name="idHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservacion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Reservacion" Type="Self.Reservacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="idPersona" />
+            </Principal>
+            <Dependent Role="Reservacion">
+              <PropertyRef Name="idPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaReservacionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" />
+          <EntitySet Name="Hotel" EntityType="Self.Hotel" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <EntitySet Name="Reservacion" EntityType="Self.Reservacion" />
+          <AssociationSet Name="FK_Bitacora_Persona" Association="Self.FK_Bitacora_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Reservacion" Association="Self.FK_Bitacora_Reservacion">
+            <End Role="Reservacion" EntitySet="Reservacion" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Habitacion_Hotel" Association="Self.FK_Habitacion_Hotel">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Habitacion" EntitySet="Habitacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservacion_Habitacion" Association="Self.FK_Reservacion_Habitacion">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reservacion" EntitySet="Reservacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservacion_Persona" Association="Self.FK_Reservacion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Reservacion" EntitySet="Reservacion" />
+          </AssociationSet>
+          <FunctionImport Name="ConsultarCapacidad" ReturnType="Collection(Int32)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_idHotel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_AgregarUsuario">
+            <Parameter Name="P_nombreCompleto" Mode="In" Type="String" />
+            <Parameter Name="P_email" Mode="In" Type="String" />
+            <Parameter Name="P_clave" Mode="In" Type="String" />
+            <Parameter Name="P_esEmpleado" Mode="In" Type="String" />
+            <Parameter Name="P_estado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CancelarBitacora">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_idPersona" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CancelarReservacion">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConseguirID" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="proc_ConsultarCliente" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarCliente_Result)" />
+          <FunctionImport Name="proc_ConsultarDetalleBitacora" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarDetalleBitacora_Result)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarDetalleReservacion" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarDetalleReservacion_Result)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarEstadoReservacion" ReturnType="Collection(String)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarFecha" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarFecha_Result)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarFechaReservacion" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarFechaReservacion_Result)">
+            <Parameter Name="P_idHabitacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarHabitaciones" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarHabitaciones_Result)" />
+          <FunctionImport Name="proc_ConsultarHabitacionPorId" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarHabitacionPorId_Result)">
+            <Parameter Name="P_idHabitacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarHotel" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarHotel_Result)" />
+          <FunctionImport Name="proc_ConsultarHotelPorId" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarHotelPorId_Result)">
+            <Parameter Name="P_idHotel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarReservaciones" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarReservaciones_Result)" />
+          <FunctionImport Name="proc_ConsultarReservacionPorID" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarReservacionPorID_Result)">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ConsultarUsuarioReservaciones" ReturnType="Collection(SistemaReservacionModel.proc_ConsultarUsuarioReservaciones_Result)">
+            <Parameter Name="P_nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CorregirBitacora">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_idPersona" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CrearBitacora">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_idPersona" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CrearHabitacion">
+            <Parameter Name="P_idHotel" Mode="In" Type="Int32" />
+            <Parameter Name="P_numeroHabitacion" Mode="In" Type="String" />
+            <Parameter Name="P_capacidadMaxima" Mode="In" Type="Int32" />
+            <Parameter Name="P_descripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_CrearReservacion">
+            <Parameter Name="P_idPersona" Mode="In" Type="Int32" />
+            <Parameter Name="P_idHabitacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_fechaEntrada" Mode="In" Type="DateTime" />
+            <Parameter Name="P_fechaSalida" Mode="In" Type="DateTime" />
+            <Parameter Name="P_numeroAdultos" Mode="In" Type="Int32" />
+            <Parameter Name="P_numeroNinho" Mode="In" Type="Int32" />
+            <Parameter Name="P_totalDiasReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_costoPorCadaAdulto" Mode="In" Type="Decimal" />
+            <Parameter Name="P_costoPorCadaNinho" Mode="In" Type="Decimal" />
+            <Parameter Name="P_costoTotal" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="proc_EditarHabitacion">
+            <Parameter Name="P_idHabitacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_numeroHabitacion" Mode="In" Type="String" />
+            <Parameter Name="P_capacidadMaxima" Mode="In" Type="Int32" />
+            <Parameter Name="P_descripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_EditarReservacion">
+            <Parameter Name="P_idReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_fechaEntrada" Mode="In" Type="DateTime" />
+            <Parameter Name="P_fechaSalida" Mode="In" Type="DateTime" />
+            <Parameter Name="P_numeroAdultos" Mode="In" Type="Int32" />
+            <Parameter Name="P_numeroNinho" Mode="In" Type="Int32" />
+            <Parameter Name="P_totalDiasReservacion" Mode="In" Type="Int32" />
+            <Parameter Name="P_costoPorCadaAdulto" Mode="In" Type="Decimal" />
+            <Parameter Name="P_costoPorCadaNinho" Mode="In" Type="Decimal" />
+            <Parameter Name="P_costoTotal" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="proc_FiltroReservaciones" ReturnType="Collection(SistemaReservacionModel.proc_FiltroReservaciones_Result)">
+            <Parameter Name="P_idPersona" Mode="In" Type="Int32" />
+            <Parameter Name="P_fechaEntrada" Mode="In" Type="DateTime" />
+            <Parameter Name="P_fechaSalida" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="proc_Inactivar">
+            <Parameter Name="P_idHabitacion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_ValidarUsuario" ReturnType="Collection(SistemaReservacionModel.proc_ValidarUsuario_Result)" />
+        </EntityContainer>
+        <ComplexType Name="proc_ConsultarCliente_Result">
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarDetalleBitacora_Result">
+          <Property Type="DateTime" Name="fechaDeLaAccion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="accionRealizada" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarDetalleReservacion_Result">
+          <Property Type="Int32" Name="idReservacion" Nullable="false" />
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="numeroHabitacion" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="totalDiasReservacion" Nullable="false" />
+          <Property Type="Int32" Name="numeroNinhos" Nullable="false" />
+          <Property Type="Int32" Name="numeroAdultos" Nullable="false" />
+          <Property Type="String" Name="costoTotal" Nullable="false" MaxLength="42" />
+          <Property Type="String" Name="estado" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarFecha_Result">
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarFechaReservacion_Result">
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarHabitaciones_Result">
+          <Property Type="Int32" Name="idHabitacion" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="numeroHabitacion" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="capacidadMaxima" Nullable="false" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarHabitacionPorId_Result">
+          <Property Type="Int32" Name="idHabitacion" Nullable="false" />
+          <Property Type="Int32" Name="idHotel" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="numeroHabitacion" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="capacidadMaxima" Nullable="false" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarHotel_Result">
+          <Property Type="Int32" Name="idHotel" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarHotelPorId_Result">
+          <Property Type="Int32" Name="idHotel" Nullable="false" />
+          <Property Type="Decimal" Name="costoPorCadaAdulto" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="costoPorCadaNinho" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarReservaciones_Result">
+          <Property Type="Int32" Name="idReservacion" Nullable="false" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+          <Property Type="String" Name="costoTotal" Nullable="false" MaxLength="42" />
+          <Property Type="String" Name="estado" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarReservacionPorID_Result">
+          <Property Type="Int32" Name="idReservacion" Nullable="false" />
+          <Property Type="Int32" Name="idHotel" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="numeroHabitacion" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="numeroNinhos" Nullable="false" />
+          <Property Type="Int32" Name="numeroAdultos" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="proc_ConsultarUsuarioReservaciones_Result">
+          <Property Type="Int32" Name="idReservacion" Nullable="false" />
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+          <Property Type="String" Name="costoTotal" Nullable="false" MaxLength="42" />
+          <Property Type="String" Name="estado" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="proc_FiltroReservaciones_Result">
+          <Property Type="Int32" Name="idReservacion" Nullable="false" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="fechaEntrada" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="fechaSalida" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Column1" Nullable="false" MaxLength="42" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="proc_ValidarUsuario_Result">
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="nombreCompleto" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="clave" Nullable="false" MaxLength="15" />
+          <Property Type="Boolean" Name="esEmpleado" Nullable="false" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="8" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SistemaReservacionModelStoreContainer" CdmEntityContainer="SistemaReservacionEntities">
+          <EntitySetMapping Name="Bitacora">
+            <EntityTypeMapping TypeName="SistemaReservacionModel.Bitacora">
+              <MappingFragment StoreEntitySet="Bitacora">
+                <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="accionRealizada" ColumnName="accionRealizada" />
+                <ScalarProperty Name="fechaDeLaAccion" ColumnName="fechaDeLaAccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Habitacion">
+            <EntityTypeMapping TypeName="SistemaReservacionModel.Habitacion">
+              <MappingFragment StoreEntitySet="Habitacion">
+                <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+                <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotel">
+            <EntityTypeMapping TypeName="SistemaReservacionModel.Hotel">
+              <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+                <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="SistemaReservacionModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="esEmpleado" ColumnName="esEmpleado" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservacion">
+            <EntityTypeMapping TypeName="SistemaReservacionModel.Reservacion">
+              <MappingFragment StoreEntitySet="Reservacion">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+                <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+                <ScalarProperty Name="totalDiasReservacion" ColumnName="totalDiasReservacion" />
+                <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+                <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCapacidad" FunctionName="SistemaReservacionModel.Store.ConsultarCapacidad" />
+          <FunctionImportMapping FunctionImportName="proc_AgregarUsuario" FunctionName="SistemaReservacionModel.Store.proc_AgregarUsuario" />
+          <FunctionImportMapping FunctionImportName="proc_CancelarBitacora" FunctionName="SistemaReservacionModel.Store.proc_CancelarBitacora" />
+          <FunctionImportMapping FunctionImportName="proc_CancelarReservacion" FunctionName="SistemaReservacionModel.Store.proc_CancelarReservacion" />
+          <FunctionImportMapping FunctionImportName="proc_ConseguirID" FunctionName="SistemaReservacionModel.Store.proc_ConseguirID" />
+          <FunctionImportMapping FunctionImportName="proc_ConsultarCliente" FunctionName="SistemaReservacionModel.Store.proc_ConsultarCliente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarCliente_Result">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarDetalleBitacora" FunctionName="SistemaReservacionModel.Store.proc_ConsultarDetalleBitacora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarDetalleBitacora_Result">
+                <ScalarProperty Name="fechaDeLaAccion" ColumnName="fechaDeLaAccion" />
+                <ScalarProperty Name="accionRealizada" ColumnName="accionRealizada" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarDetalleReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarDetalleReservacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarDetalleReservacion_Result">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="totalDiasReservacion" ColumnName="totalDiasReservacion" />
+                <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+                <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarEstadoReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarEstadoReservacion" />
+          <FunctionImportMapping FunctionImportName="proc_ConsultarFecha" FunctionName="SistemaReservacionModel.Store.proc_ConsultarFecha">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarFecha_Result">
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarFechaReservacion" FunctionName="SistemaReservacionModel.Store.proc_ConsultarFechaReservacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarFechaReservacion_Result">
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarHabitaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHabitaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHabitaciones_Result">
+                <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+                <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarHabitacionPorId" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHabitacionPorId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHabitacionPorId_Result">
+                <ScalarProperty Name="idHabitacion" ColumnName="idHabitacion" />
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+                <ScalarProperty Name="capacidadMaxima" ColumnName="capacidadMaxima" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarHotel" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHotel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHotel_Result">
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarHotelPorId" FunctionName="SistemaReservacionModel.Store.proc_ConsultarHotelPorId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarHotelPorId_Result">
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="costoPorCadaAdulto" ColumnName="costoPorCadaAdulto" />
+                <ScalarProperty Name="costoPorCadaNinho" ColumnName="costoPorCadaNinho" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarReservaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarReservaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarReservaciones_Result">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarReservacionPorID" FunctionName="SistemaReservacionModel.Store.proc_ConsultarReservacionPorID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarReservacionPorID_Result">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numeroHabitacion" ColumnName="numeroHabitacion" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="numeroNinhos" ColumnName="numeroNinhos" />
+                <ScalarProperty Name="numeroAdultos" ColumnName="numeroAdultos" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_ConsultarUsuarioReservaciones" FunctionName="SistemaReservacionModel.Store.proc_ConsultarUsuarioReservaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ConsultarUsuarioReservaciones_Result">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_CorregirBitacora" FunctionName="SistemaReservacionModel.Store.proc_CorregirBitacora" />
+          <FunctionImportMapping FunctionImportName="proc_CrearBitacora" FunctionName="SistemaReservacionModel.Store.proc_CrearBitacora" />
+          <FunctionImportMapping FunctionImportName="proc_CrearHabitacion" FunctionName="SistemaReservacionModel.Store.proc_CrearHabitacion" />
+          <FunctionImportMapping FunctionImportName="proc_CrearReservacion" FunctionName="SistemaReservacionModel.Store.proc_CrearReservacion" />
+          <FunctionImportMapping FunctionImportName="proc_EditarHabitacion" FunctionName="SistemaReservacionModel.Store.proc_EditarHabitacion" />
+          <FunctionImportMapping FunctionImportName="proc_EditarReservacion" FunctionName="SistemaReservacionModel.Store.proc_EditarReservacion" />
+          <FunctionImportMapping FunctionImportName="proc_FiltroReservaciones" FunctionName="SistemaReservacionModel.Store.proc_FiltroReservaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_FiltroReservaciones_Result">
+                <ScalarProperty Name="idReservacion" ColumnName="idReservacion" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="fechaEntrada" ColumnName="fechaEntrada" />
+                <ScalarProperty Name="fechaSalida" ColumnName="fechaSalida" />
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_Inactivar" FunctionName="SistemaReservacionModel.Store.proc_Inactivar" />
+          <FunctionImportMapping FunctionImportName="proc_ValidarUsuario" FunctionName="SistemaReservacionModel.Store.proc_ValidarUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SistemaReservacionModel.proc_ValidarUsuario_Result">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="nombreCompleto" ColumnName="nombreCompleto" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="esEmpleado" ColumnName="esEmpleado" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
