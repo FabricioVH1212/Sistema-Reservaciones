@@ -11,7 +11,7 @@ CRUD con las habitaciones del sistema de hotel basado en Trivago.
 Instrucciones para la instalación del ambiente de desarrollo dev
 
 ## Software requerido
--Visual Studio 
+-Visual Studio <br>
 -SQL Server
 
 ## Proceso de instalación
@@ -31,10 +31,10 @@ que ser modificado con los datos de su BD para correrlo en en su sistema.
 
 ### Mapeo de la Base de Datos
 Eliminar los archivos de la carpeta data y volver a hacer el mapeo
-en caso de errores, nombres a usar
-  *DBMapping (Archivo de mapeo)
-  *SistemaReservacionEntities(Archivos con entidades)
-  *SistemaReservacionModel(Archivos con los modelos)
+en caso de errores, nombres a usar <br>
+  *DBMapping (Archivo de mapeo) <br>
+  *SistemaReservacionEntities(Archivos con entidades) <br>
+  *SistemaReservacionModel(Archivos con los modelos) <br>
  Es importante usar estos nombres al pie de la letra para que no haya problema con el código.
  
  
